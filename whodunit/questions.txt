@@ -1,12 +1,30 @@
-1.  TODO
-2.  TODO
-3.  TODO
-4.  TODO
-5.  TODO
-6.  TODO
-7.  TODO
-8.  TODO
-9.  TODO
-10. TODO
-11. TODO
-12. TODO
+1. stdint.h is a header file that introduces several new integer types
+   that keep sizes standard across all systems.
+
+2. These are exact-width integer types which are guaranteed to have the same
+   number N of bits across all implementations.
+
+3. BYTE = 1 BYTE
+   DWORD = 4 BYTES
+   LONG = 4 BYTES
+   WORD = 2 BYTES
+
+4. BM
+
+5. biSize is a fixed number bytes required by the BITMAPINFOHEADER.
+   bfSize is the size of the whole file incl the header file.
+
+6. If biHeight is negative, the bitmap is a top-down DIB and
+   its origin is the upper-left corner.
+
+7. biBitCount
+
+8. because you did not get a legitimate pointer back from fopen()
+
+9. because it will only read 1 BITMAPFILEHEADER
+
+10. 3
+11. sets file position
+12. It is a constant that moves the file pointer position to given location.
+
+
