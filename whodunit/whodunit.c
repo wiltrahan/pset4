@@ -72,9 +72,15 @@ int main(int argc, char *argv[])
         {
             // temporary storage
             RGBTRIPLE triple;
-
             // read RGB triple from infile
             fread(&triple, sizeof(RGBTRIPLE), 1, inptr);
+
+            //REMOVE RED, ENHANCE GREEN & BLUE TO 100%
+            if(triple.rgbtRed == 255) {
+                triple.rgbtRed = 0;
+                triple.rgbtGreen = 255;
+                triple.rgbtBlue = 255;
+            }
 
             // write RGB triple to outfile
             fwrite(&triple, sizeof(RGBTRIPLE), 1, outptr);
