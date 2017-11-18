@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
     //bi.biWidth -- not incl padding
     //bi.biHeight
     bi.biWidth *= n;
-    bi.biHeight *= n;
+    bi.biHeight = bi.biHeight * n;
     int padding = (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
 
     // bi.biSizeImage = ((bi.biWidth * sizeof(RGBTRIPLE)) + padding) * abs(bi.biHeight);
