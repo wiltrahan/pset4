@@ -64,6 +64,7 @@ int main(int argc, char *argv[])
         return 4;
     }
 
+    //hang on to orig size to use in loop down below
     int orig_width = bi.biWidth;
     int orig_height = bi.biHeight;
 
@@ -79,35 +80,37 @@ int main(int argc, char *argv[])
     bf.bfSize = bi.biSizeImage + sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER);
 
     // write outfile's BITMAPFILEHEADER
-    fwrite(&bf, sizeof(BITMAPFILEHEADER), 1, outptr); //**
+    fwrite(&bf, sizeof(BITMAPFILEHEADER), 1, outptr);
 
     // write outfile's BITMAPINFOHEADER
-    fwrite(&bi, sizeof(BITMAPINFOHEADER), 1, outptr); //**
+    fwrite(&bi, sizeof(BITMAPINFOHEADER), 1, outptr);
 
-    // determine padding for scanlines
 
     // iterate over infile's scanlines
-    for (int i = 0, biHeight = abs(orig_height); i < biHeight; i++)
-    {
-        for(int row = 0; row < n; row++)
-        {
-             // iterate over pixels in scanline
-            for (int j = 0; j < orig_width; j++)
-            {
+    for (int i = 0, biHeight = abs(orig_height); i < biHeight; i++) {
 
-                for(int col = 0; col < n; col++)
-                {
+        for(int row = 0; row < n; row++) {
+
+             // iterate over pixels in scanline
+            for (int j = 0; j < orig_width; j++) {
+
+                for(int col = 0; col < n; col++) {
                     // temporary storage
                     RGBTRIPLE triple;
 
                     // read RGB triple from infile
+                    //&triple is the pointer to the struct which contains the bytes to be read
+                    //inptr is the File to read from
                     fread(&triple, sizeof(RGBTRIPLE), 1, inptr);
 
+
                     // write RGB triple to outfile
+                    //read FROM &triple struct write TO outptr file
                     fwrite(&triple, sizeof(RGBTRIPLE), 1, outptr);
 
-                    // move file pointer back one pixel if not at last pixel
-                    if (col != (n-1))
+                    //inptr is the file to seek in, sizeof is the number of bytes to move cursor
+                    //SEEK_CUR is the current position in file
+                    if (col != (n - 1))
                         fseek(inptr, -sizeof(RGBTRIPLE), SEEK_CUR);
                 }
 
@@ -117,14 +120,12 @@ int main(int argc, char *argv[])
             fseek(inptr, padding, SEEK_CUR);
 
             // then add it back (to demonstrate how)
-            for (int k = 0; k < newPadding; k++)
-            {
+            for (int k = 0; k < newPadding; k++) {
                 fputc(0x00, outptr);
             }
 
             if(row != (n - 1))
                 fseek(inptr, (-sizeof(RGBTRIPLE) * orig_width) - padding, SEEK_CUR);
-
         }
     }
 
