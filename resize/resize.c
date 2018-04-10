@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <cs50.h>
 
 #include "bmp.h"
 
@@ -92,17 +93,19 @@ int main(int argc, char *argv[])
                 fwrite(&triple, sizeof(RGBTRIPLE), 1, outptr);
             }
 
-
         }
-
-        // skip over padding, if any
-        fseek(inptr, padding, SEEK_CUR);
-
         // then add it back (to demonstrate how)
         for (int k = 0; k < new_padding; k++)
         {
             fputc(0x00, outptr);
         }
+
+        // skip over padding, if any
+
+        fseek(inptr, padding, SEEK_CUR);
+        eprintf("%i %d\n", padding, SEEK_CUR);
+
+
     }
 
     // close infile
